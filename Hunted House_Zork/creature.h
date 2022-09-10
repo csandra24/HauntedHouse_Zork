@@ -6,6 +6,16 @@
 
 using namespace std;
 
+class Room;
+
+class Creature :
+	public entity
+{
+public:
+	Creature(const string name, const string description, Room* room);
+	virtual ~Creature();
+	Room* room;
+};
 
 
 #endif // !1__Creature__

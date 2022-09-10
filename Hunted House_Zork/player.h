@@ -9,6 +9,33 @@
 #include "item.h"
 
 using namespace std;
+using namespace text;
+
+enum stateMovement {
+	IDLE,
+	MOVING,
+	STOP
+};
+
+class Player :
+	public Creature
+{
+public:
+	Player(const string name, const string description, Room *room);
+	virtual ~Player();
+	stateMovement MOVE(const Directions directions);
+	bool Pick(Item* item);
+	bool Drop(Item* item);
+	bool Open(Item* item);
+	bool Look(const entity* entity);
+	bool Help();
+	bool Save(Item* item);
+
+	void Inventory();
+
+private:
+
+};
 
 
 

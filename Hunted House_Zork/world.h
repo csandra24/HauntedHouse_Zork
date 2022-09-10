@@ -11,6 +11,16 @@
 
 using namespace std;
 
+class World {
+public:
+	World();
+	virtual ~World();
+	Actions Input(const string& input);
+
+private:
+
+};
+
 
 
 #endif // !1__World__

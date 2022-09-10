@@ -6,6 +6,28 @@
 
 using namespace std;
 
+enum itemType {
+	CANDLE,
+	SILVER_KEY,
+	GOLD_KEY,
+	FOOD,
+	WEAPON,
+	BAG
+
+};
+
+class Item :
+	public entity
+{
+public:
+	Item(const string name, const string description, entity* parent, const itemType iType);
+	virtual ~Item();
+	bool changeParent(entity* newParent);
+	itemType iType;
+
+};
+
+
 
 
 #endif // !1__Item__

@@ -24,6 +24,7 @@
     <ProjectGuid>{84677abf-a7f9-4efa-ae15-fcbacec780af}</ProjectGuid>
     <RootNamespace>HuntedHouseZork</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Haunted House_Zork</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
