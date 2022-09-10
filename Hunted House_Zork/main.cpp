@@ -3,6 +3,7 @@
 #include "world.h"
 
 using namespace std;
+using namespace text;
 
 int main() {
 	string playerInput;

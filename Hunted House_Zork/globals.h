@@ -37,7 +37,7 @@ enum Actions {
 	NONE
 };
 
-/*class Command
+class Command
 {
 public:
 	Command(const list<string> names, const Actions actions, const int numberOfArguments);
@@ -49,7 +49,7 @@ public:
 	Actions actions;
 	int numberOfArguments;
 
-};*/
+};
 
 namespace text { 
 	void printMessage(string message);

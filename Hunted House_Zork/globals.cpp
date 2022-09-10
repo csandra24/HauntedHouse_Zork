@@ -126,3 +126,33 @@ bool Command::IsCommand(const string& input) {
 	return found;
 }
 
+string Command::GetArguments(const string& input) {
+
+	int inputWordsCount = CountWords(input);
+
+	string arguments = input;
+
+	for (string iter : names) {
+		if (inputWordsCount == 1) {
+			arguments = ""s;
+			break;
+		}
+		if (inputWordsCount == 2) {
+			if (compareString(input.substr(0, iter.size() + 1), (iter + " "))) {
+				arguments.erase(0, iter.size() + 1);
+				break;
+			}
+		}
+		if (inputWordsCount == 4) {
+			if (compareString(input.substr(0, iter.size() + 1), (iter + " "))) {
+				arguments.erase(0, iter.size() + 1);
+				break;
+			}
+		}
+	}
+
+	return arguments;
+}
+
+//fin command
+

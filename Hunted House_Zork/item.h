@@ -7,7 +7,7 @@
 using namespace std;
 
 enum itemType {
-	CANDLE,
+	STATIC,
 	SILVER_KEY,
 	GOLD_KEY,
 	FOOD,
