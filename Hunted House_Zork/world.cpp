@@ -75,7 +75,7 @@ World::World() {
 	worldEntities.push_back(goldKey);
 
 	Creature* slimeMonster = new Creature("Monster's name"s, "Descripción"s, basementRoom);
-	Creature* slimeMonster = new Creature("Monster's name"s, "Descripción"s, bedroom);
+	Creature* bedMonster = new Creature("Monster's name"s, "Descripción"s, bedroom);
 	player = new Player("Player"s, "Descripción player"s, basement);
 
 	worldEntities.push_back(monster);
