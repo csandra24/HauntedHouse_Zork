@@ -106,7 +106,15 @@ World::World() {
 }
 
 World::~World() {
+	for (list<entity*>::reverse_iterator rit = worldEntities.rgbegin(); rit != worldEntities.rend(); ++rit) {
+		delete* rit;
+	}
+	worldEntities.clear();
 
+	for (command* cm = commands) {
+		delete cm;
+	}
+	commands.clear();
 }
 
 Actions World::Input(const string& input)
