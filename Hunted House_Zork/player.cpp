@@ -9,7 +9,7 @@ Player::Player(const string name, const string description, Room* room) : Creatu
 
 Player::~Player(){}
 
-stateMovement Player::MOVE(const Directions directions) {
+stateMovement Player::Move(const Directions directions) {
 
 	if (directions == NOWHERE) {
 		printMessage("NO SABE DONDE IR UWU");
@@ -19,7 +19,6 @@ stateMovement Player::MOVE(const Directions directions) {
 	Room* nextRoom = room->getRoom(directions);
 	if (nextRoom != NULL) {
 		room = nextRoom;
-		/*Look(NULL);*/
 		if (compareString(room->name, "Name final room (criatura)")) {
 			return STOP;
 		}
@@ -51,8 +50,8 @@ bool Player::Pick(Item* item) {
 	bool found = false;
 	if (found)
 	{
-		room->childEntities.remove((entity*)item);
-		childEntities.push_back((entity*)item);
+		room->childEntities.remove((Entity*)item);
+		childEntities.push_back((Entity*)item);
 		printMessage(item->name + "taken."s);
 	}
 	else {
@@ -67,7 +66,7 @@ bool Player::Drop(Item* item) {
 		return false;
 	}
 	bool found = false;
-	for (entity* iter : childEntities) {
+	for (Entity* iter : childEntities) {
 		if (compareString(iter->name, item->name)) {
 			if (item->iType != STATIC) {
 				found = true;
@@ -76,8 +75,8 @@ bool Player::Drop(Item* item) {
 		}
 	}
 	if (found) {
-		childEntities.remove((entity*)item);
-		room->childEntities.push_back((entity*)item);
+		childEntities.remove((Entity*)item);
+		room->childEntities.push_back((Entity*)item);
 		printMessage(item->name + "dropped."s);
 	}
 	else {
@@ -89,7 +88,7 @@ bool Player::Drop(Item* item) {
 void Player::Inventory() {
 	if (childEntities.empty() == false) {
 		printMessage("Inventory:");
-		for (entity* iter : childEntities) {
+		for (Entity* iter : childEntities) {
 			printMessage("- " + iter->name);
 		}
 	}
@@ -105,7 +104,7 @@ bool Player::Open(Item* item) {
 		printMessage("Ups, you didn't mention what you want to open.");
 		return false;
 	}
-	for (entity* iter : childEntities) {
+	for (Entity* iter : childEntities) {
 		if (compareString(iter->name, item->name)) {
 			found = true;
 			break;
@@ -115,7 +114,7 @@ bool Player::Open(Item* item) {
 		if (item->iType == BAG) {
 			if (item->childEntities.empty() == false) {
 				printMessage("You open the "s + item->name);
-				for (entity* contained : item->childEntities) {
+				for (Entity* contained : item->childEntities) {
 					printMessage(contained->name);
 					contained->parent = NULL;
 					childEntities.push_back(contained);
@@ -143,7 +142,7 @@ bool Player::Save(Item* item, Item* container) {
 		printMessage("Sorry, I didn't understand you.");
 		return false;
 	}
-	for (entity* iter : childEntities) {
+	for (Entity* iter : childEntities) {
 		if (compareString(iter->name, item->name)) {
 			itemFound = true;
 		}

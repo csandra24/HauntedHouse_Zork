@@ -10,7 +10,7 @@ class Exit;
 class Item;
 
 class Room :
-	public entity
+	public Entity
 {
 public:
 	list<Exit*> childExits;

@@ -1,7 +1,7 @@
 #include <iostream>
 #include "entity.h"
 
-entity::entity(const string name, const string description, entity* parent) :
+Entity::Entity(const string name, const string description, Entity* parent) :
 	name(name), description(description), parent(parent) 
 {
 	type = ENTITY;
@@ -10,11 +10,11 @@ entity::entity(const string name, const string description, entity* parent) :
 	}
 }
 
-entity::entity(const string name, const string description) : entity(name, description, NULL) {
+Entity::Entity(const string name, const string description) : Entity(name, description, NULL) {
 	type: ENTITY;
 }
 
-entity::~entity() {
+Entity::~Entity() {
 	if (parent != NULL) {
 		parent->childEntities.remove(this);
 	}

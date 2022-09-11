@@ -9,7 +9,7 @@
 #include "item.h"
 
 using namespace std;
-using namespace text;
+/*using namespace text;*/
 
 enum stateMovement {
 	IDLE,
@@ -23,11 +23,10 @@ class Player :
 public:
 	Player(const string name, const string description, Room *room);
 	virtual ~Player();
-	stateMovement MOVE(const Directions directions);
+	stateMovement Move(const Directions directions);
 	bool Pick(Item* item);
 	bool Drop(Item* item);
 	bool Open(Item* item);
-	/*bool Look(const entity* entity);*/
 	bool Help();
 	bool Save(Item* item, Item* container);
 	void Inventory();

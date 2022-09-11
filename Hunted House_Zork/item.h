@@ -17,12 +17,12 @@ enum itemType {
 };
 
 class Item :
-	public entity
+	public Entity
 {
 public:
-	Item(const string name, const string description, entity* parent, const itemType iType);
+	Item(const string name, const string description, Entity* parent, const itemType iType);
 	virtual ~Item();
-	bool changeParent(entity* newParent);
+	bool changeParent(Entity* newParent);
 	itemType iType;
 
 };

@@ -6,8 +6,6 @@
 #include <array>
 #include <list>
 
-#include "player.h"
-
 using namespace std;
 
 //Directions' variable

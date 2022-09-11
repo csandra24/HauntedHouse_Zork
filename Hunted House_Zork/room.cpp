@@ -3,7 +3,7 @@
 
 using namespace text;
 
-Room::Room(const string name, const string description) : entity(name, description) {
+Room::Room(const string name, const string description) : Entity(name, description) {
 	type = ROOM;
 	childExits = {};
 }
@@ -18,7 +18,7 @@ bool Room::addExit(Exit* exit) {
 }
 
 bool Room::addItem(Item* item) {
-	childEntities.push_back((entity*)item);
+	childEntities.push_back((Entity*)item);
 	return true;
 }
 

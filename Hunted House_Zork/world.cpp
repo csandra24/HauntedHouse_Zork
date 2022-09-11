@@ -24,7 +24,6 @@ World::World() {
 	Room* bedroom = new Room("Nombre lugar"s, "descripción..."s);
 	Room* outdoor = new Room("Nombre lugar"s, "descripción..."s);
 	Room* monster = new Room("Nombre lugar"s, "descripción..."s);
-	/*falta end*/
 
 	worldEntities.push_back(basement);
 	worldEntities.push_back(basementRoom);
@@ -106,7 +105,7 @@ World::World() {
 }
 
 World::~World() {
-	for (list<entity*>::reverse_iterator rit = worldEntities.rbegin(); rit != worldEntities.rend(); ++rit) {
+	for (list<Entity*>::reverse_iterator rit = worldEntities.rbegin(); rit != worldEntities.rend(); ++rit) {
 		delete* rit;
 	}
 	worldEntities.clear();
@@ -140,12 +139,12 @@ Actions World::Input(const string& input)
 	{
 	case MOVE:
 		if (args.empty()) {
-			statemovement = player->MOVE(NOWHERE);
+			statemovement = player->Move(NOWHERE);
 		}
 		else {
 			for (Directions directions : directionString) {
 				if (compareString(args, directions)) {
-					statemovement = player->MOVE(directions);
+					statemovement = player->Move(directions);
 					found = true;
 					break;
 				}
@@ -159,7 +158,7 @@ Actions World::Input(const string& input)
 			bool gotSilverKey1 = false;
 			bool gotGoldKey = false;
 
-			for (entity* item : player->childEntities) {
+			for (Entity* item : player->childEntities) {
 				if (compareString(item->name, "Silver Key")) {
 					gotSilverKey1 = true;
 				}
@@ -187,7 +186,7 @@ Actions World::Input(const string& input)
 			player->Pick(NULL);
 		}
 		else {
-			for (entity* element : worldEntities) {
+			for (Entity* element : worldEntities) {
 				if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
 					if (Item* item = dynamic_cast<Item*>(element)) {
 						player->Pick(item);
@@ -206,7 +205,7 @@ Actions World::Input(const string& input)
 			player->Drop(NULL);
 		}
 		else {
-			for (entity* element : player->childEntities) {
+			for (Entity* element : player->childEntities) {
 				if (compareString(args, element->name) && (element->type == ITEM)) {
 					if (Item* item = dynamic_cast<Item*>(element)) {
 						player->Drop(item);
@@ -232,7 +231,7 @@ Actions World::Input(const string& input)
 			player->Open(NULL);
 		}
 		else {
-			for (entity* element : worldEntities) {
+			for (Entity* element : worldEntities) {
 				if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
 					if (Item* item = dynamic_cast<Item*>(element)) {
 						player->Open(item);
@@ -256,7 +255,7 @@ Actions World::Input(const string& input)
 		else {
 			Item* first = NULL;
 			Item* second = NULL;
-			for (entity* element : worldEntities) {
+			for (Entity* element : worldEntities) {
 				if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == ITEM)) {
 					if (Item* item = dynamic_cast<Item*>(element)) {
 						first = item;
@@ -272,7 +271,7 @@ Actions World::Input(const string& input)
 			args.erase(0, first->name.size());
 			//Ignoring " in "
 			args.erase(0, 4);
-			for (entity* element : worldEntities) {
+			for (Entity* element : worldEntities) {
 				if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == ITEM)) {
 					if (Item* item = dynamic_cast<Item*>(element)) {
 						second = item;

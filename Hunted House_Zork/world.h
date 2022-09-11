@@ -21,7 +21,7 @@ public:
 private:
 	Player* player;
 	list<Command*> commands;
-	list<entity*> worldEntities;
+	list<Entity*> worldEntities;
 };
 
 

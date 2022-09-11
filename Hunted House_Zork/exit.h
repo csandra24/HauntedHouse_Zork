@@ -10,7 +10,7 @@ using namespace std;
 class Room;
 
 class Exit :
-	public entity
+	public Entity
 {
 public:
 	Room* origin;

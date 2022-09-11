@@ -28,7 +28,7 @@ int main() {
 
 
 		else if (actions == NONE) {
-			printf_s("Sorry, I don't understand you :(");
+			printMessage("Sorry, I don't understand you :("s);
 
 		}
 

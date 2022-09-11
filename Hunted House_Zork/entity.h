@@ -16,18 +16,18 @@ enum entityType
 	ITEM
 };
 
-class entity
+class Entity
 {
 public:
 	entityType type;
 	string name;
 	string description;
-	entity* parent;
-	list<entity*> childEntities;
+	Entity* parent;
+	list<Entity*> childEntities;
 
-	entity(const string name, const string description, entity* parent);
-	entity(const string name, const string description);
-	virtual ~entity();
+	Entity(const string name, const string description, Entity* parent);
+	Entity(const string name, const string description);
+	virtual ~Entity();
 
 };
 
