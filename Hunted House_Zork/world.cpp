@@ -17,13 +17,13 @@ World::World() {
 
 	};
 
-	Room* basement  = new Room("Primer lugar"s, "descripción..."s);
-	Room* basementRoom = new Room("Nombre lugar"s, "descripción..."s);
-	Room* hall = new Room("Nombre lugar"s, "descripción..."s);
-	Room* kitchen = new Room("Nombre lugar"s, "descripción..."s);
-	Room* bedroom = new Room("Nombre lugar"s, "descripción..."s);
-	Room* outdoor = new Room("Nombre lugar"s, "descripción..."s);
-	Room* monster = new Room("Nombre lugar"s, "descripción..."s);
+	Room* basement  = new Room("Basement"s, "It is a dark and damp place, illuminated by a light bulb hanging from the ceiling. There is an old closet and a box with a blurred label, not sure what it says. To the east of the basement there is a large metal door, what will be on the other side, will that cabinet or that box hold any useful object?"s);
+	Room* basementRoom = new Room("Basement's hall"s, "You are plunged into total darkness, unable to recognize anything. You start to hear strange noises. Is there something else there? Is that a staircase over there?"s);
+	Room* hall = new Room("Hall"s, "It is a very large and spacious room, decorated like in the 60's, but the windows are all covered, making it difficult to see. You can make out 3 doors in the dark, where do they lead to?"s);
+	Room* kitchen = new Room("Kitchen"s, "At the moment, the most colorful place in the house with blue tiles and floral print textiles. There are some cabinets open but others are closed, you can also see what looks like a refrigerator."s);
+	Room* bedroom = new Room("Bedroom"s, "The room is covered in a nasty green slime, is there another monster in here? BOOM, it appears in front of you"s);
+	Room* outdoor = new Room("Outdoor"s, "You get out of the house, you are free! You breathe again the clean air of the street and see clearly the blue sky."s);
+	//Room* monster = new Room("Nombre lugar"s, "descripción..."s);
 
 	worldEntities.push_back(basement);
 	worldEntities.push_back(basementRoom);
@@ -31,14 +31,14 @@ World::World() {
 	worldEntities.push_back(kitchen);
 	worldEntities.push_back(bedroom);
 	worldEntities.push_back(outdoor);
-	worldEntities.push_back(monster);
+	//worldEntities.push_back(monster);
 
 	// exit
 	Exit* basementToRoom = new Exit("You succeed in opening the door"s, ""s, basement, basementRoom, EAST);
-	Exit* roomToHall = new Exit("Descripción"s, ""s, basementRoom, hall, UP);
-	Exit* hallToKitchen = new Exit("Descripción"s, ""s, hall, kitchen, EAST);
-	Exit* hallToBedroom = new Exit("Descripción"s, ""s, hall, bedroom, WEST);
-	Exit* hallToOutdoor = new Exit("Descripción"s, ""s, hall, outdoor, NORTH);
+	Exit* roomToHall = new Exit("You walk up the stairs and arrive at..."s, ""s, basementRoom, hall, UP);
+	Exit* hallToKitchen = new Exit("Hall to kitchen"s, ""s, hall, kitchen, EAST);
+	Exit* hallToBedroom = new Exit("Hall to bedroom"s, ""s, hall, bedroom, WEST);
+	Exit* hallToOutdoor = new Exit("Hall to outdoor"s, ""s, hall, outdoor, NORTH);
 
 	worldEntities.push_back(basementToRoom);
 	worldEntities.push_back(roomToHall);
@@ -47,11 +47,11 @@ World::World() {
 	worldEntities.push_back(hallToOutdoor);
 
 	//items
-	Item* bag = new Item("Nombre"s, "descripción", NULL, BAG);
-	Item* box = new Item("Nombre"s, "descripción"s, NULL, BAG);
-	Item* peach = new Item("Nombre"s, "descripción"s, box, FOOD);
-	Item* closet = new Item("Nombre"s, "descripción"s, NULL, BAG);
-	Item* silverKey = new Item("Nombre"s, "descripción"s, closet, SILVER_KEY);
+	Item* bag = new Item("Bag"s, "This is the backpack you had with you before you were attacked. Is there anything in it?", NULL, BAG);
+	Item* box = new Item("Box"s, "It is a cardboard box of what looks like a fruit store, or not... or of some juegutes... pff, you can't read it is very blurry. "s, NULL, BAG);
+	Item* peach = new Item("Peach"s, "Yellow, orange and juicy fruit."s, box, FOOD);
+	Item* closet = new Item("Closet"s, "descripción"s, NULL, BAG);
+	Item* silverKey = new Item("Silver Key"s, "descripción"s, closet, SILVER_KEY);
 	Item* kitchenCabinet = new Item("Nombre"s, "descripción"s, NULL, BAG);
 	Item* kitchenCabinet1 = new Item("Nombre"s, "descripción"s, NULL, BAG);
 	Item* fridge = new Item("Nombre"s, "descripción"s, NULL, BAG);
@@ -73,12 +73,14 @@ World::World() {
 	worldEntities.push_back(firecracker);
 	worldEntities.push_back(goldKey);
 
+	player = new Player("Player"s, "You have woken up in the basement of an old house after being attacked, will you be able to get out?"s, basement);
 	Creature* slimeMonster = new Creature("Monster's name"s, "Descripción"s, basementRoom);
 	Creature* bedMonster = new Creature("Monster's name"s, "Descripción"s, bedroom);
-	player = new Player("Player"s, "Descripción player"s, basement);
-
-	worldEntities.push_back(monster);
+	
 	worldEntities.push_back(player);
+	worldEntities.push_back(bedMonster);
+	worldEntities.push_back(slimeMonster);
+	
 
 	basement->addItem(box);
 	basement->addItem(closet);
