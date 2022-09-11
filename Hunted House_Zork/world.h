@@ -18,7 +18,9 @@ public:
 	Actions Input(const string& input);
 
 private:
-
+	Player* player;
+	list<Command*> commands;
+	list<entity*> worldEntities;
 };
 
 

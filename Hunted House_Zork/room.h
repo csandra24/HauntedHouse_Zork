@@ -6,10 +6,14 @@
 
 using namespace std;
 
+class Exit;
+class Item;
+
 class Room :
 	public entity
 {
 public:
+	list<Exit*> childExits;
 	Room(const string name, const string description);
 	virtual ~Room();
 	bool addExit(Exit* exit);

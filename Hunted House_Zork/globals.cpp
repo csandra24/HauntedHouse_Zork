@@ -2,6 +2,8 @@
 
 using namespace text;
 
+array<Directions, 6> directionString = { NORTH,SOUTH,EAST,WEST,UP,DOWN };
+
 namespace  text {
 	void printMessage(string message) {
 		message[0] = (char)toupper(message[0]);
@@ -17,9 +19,13 @@ namespace  text {
 	void printHelp() {
 		cout << "1 word commands\n";
 		cout << "Inventory - List of player's inventory\n";
+		cout << "End/Quit - End the game\n\n";
 		cout << "2 word commands\n";
-		cout << "Move (direction) - Player movement towards that direction\nGet/Pick/Take (item) - Add item to player's inventory\n";
+		cout << "Move/Go (direction) - Player movement towards that direction\nPick/Take/Get (item) - Add item to player's inventory\n";
 		cout << "Drop (item) - Remove item from player's inventory and leave it on the floor\n";
+		cout << "Open (container) - Open any container and put its content in player's inventory\n\n";
+		cout << "4 word commands\n";
+		cout << "Save/Put (item) in (container) - Removes an object from the player's inventory and adds it to a container, such as a bag.\n";
 	}
 
 	void printIntro() {

@@ -14,7 +14,7 @@ int main() {
 	while (end == false)
 	{
 		getline(cin, playerInput);
-		printf_s("");
+		printMessage("");
 
 		actions = myWorld.Input(playerInput); 
 

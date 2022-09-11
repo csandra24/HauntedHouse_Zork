@@ -27,13 +27,10 @@ public:
 	bool Pick(Item* item);
 	bool Drop(Item* item);
 	bool Open(Item* item);
-	bool Look(const entity* entity);
+	/*bool Look(const entity* entity);*/
 	bool Help();
-	bool Save(Item* item);
-
+	bool Save(Item* item, Item* container);
 	void Inventory();
-
-private:
 
 };
 
