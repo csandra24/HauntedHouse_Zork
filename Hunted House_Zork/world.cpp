@@ -56,7 +56,7 @@ World::World() {
 	Item* kitchenCabinet = new Item("Nombre"s, "descripción"s, NULL, BAG);
 	Item* kitchenCabinet1 = new Item("Nombre"s, "descripción"s, NULL, BAG);
 	Item* fridge = new Item("Nombre"s, "descripción"s, NULL, BAG);
-	Item* meat = new Item("Nombre"s, "descripción"s, kitchenCabinet, FOOD);
+	Item* cookies = new Item("Nombre"s, "descripción"s, kitchenCabinet, FOOD);
 	Item* silverKey1 = new Item("Nombre"s, "descripción"s, kitchenCabinet1, SILVER_KEY);
 	Item* firecracker = new Item("Nombre"s, "descripción"s, fridge, WEAPON);
 	Item* goldKey = new Item("Nombre"s, "descripción"s, NULL, GOLD_KEY);
@@ -69,7 +69,7 @@ World::World() {
 	worldEntities.push_back(kitchenCabinet);
 	worldEntities.push_back(kitchenCabinet1);
 	worldEntities.push_back(fridge);
-	worldEntities.push_back(meat);
+	worldEntities.push_back(cookies);
 	worldEntities.push_back(silverKey1);
 	worldEntities.push_back(firecracker);
 	worldEntities.push_back(goldKey);
@@ -106,12 +106,12 @@ World::World() {
 }
 
 World::~World() {
-	for (list<entity*>::reverse_iterator rit = worldEntities.rgbegin(); rit != worldEntities.rend(); ++rit) {
+	for (list<entity*>::reverse_iterator rit = worldEntities.rbegin(); rit != worldEntities.rend(); ++rit) {
 		delete* rit;
 	}
 	worldEntities.clear();
 
-	for (command* cm = commands) {
+	for (Command* cm : commands) {
 		delete cm;
 	}
 	commands.clear();
@@ -119,6 +119,191 @@ World::~World() {
 
 Actions World::Input(const string& input)
 {
+	Command* command;
+	string args;
+	stateMovement statemovement;
+	bool found = false;
 
+	if (input.size() == 0) {
+		return NONE;
+	}
 
+	command = getCommand(input);
+
+	if (command == NULL) {
+		return NONE;
+	}
+
+	args = command->GetArguments(input);
+
+	switch (command->actions)
+	{
+	case MOVE:
+		if (args.empty()) {
+			statemovement = player->MOVE(NOWHERE);
+		}
+		else {
+			for (Directions directions : directionString) {
+				if (compareString(args, directions)) {
+					statemovement = player->MOVE(directions);
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				printMessage("I didn't not understand where you want to go.");
+				statemovement = IDLE;
+			}
+		}
+		if (statemovement == STOP) {
+			bool gotSilverKey1 = false;
+			bool gotGoldKey = false;
+
+			for (entity* item : player->childEntities) {
+				if (compareString(item->name, "Silver Key")) {
+					gotSilverKey1 = true;
+				}
+				else if (compareString(item->name, "Gold Key")) {
+					gotGoldKey = true;
+				}
+			}
+			if (gotSilverKey1 && gotGoldKey) {
+				printMessage("Has conseguido ambas llaves, consigues salir al exterior");
+			}
+			else if (gotSilverKey1) {
+				printMessage("Falta una de las llaves");
+			}
+			else if (gotGoldKey) {
+				printMessage("falta una llave");
+			}
+			else {
+				printMessage("Sin ninguna llave no consigues salir fuera");
+			}
+			command->actions = END;
+		}
+		break;
+	case PICK:
+		if (args.empty()) {
+			player->Pick(NULL);
+		}
+		else {
+			for (entity* element : worldEntities) {
+				if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
+					if (Item* item = dynamic_cast<Item*>(element)) {
+						player->Pick(item);
+						found = true;
+						break;
+					}
+				}
+			}
+			if (!found) {
+				printMessage("This item doesn't exists.");
+			}
+		}
+		break;
+	case DROP:
+		if (args.empty()) {
+			player->Drop(NULL);
+		}
+		else {
+			for (entity* element : player->childEntities) {
+				if (compareString(args, element->name) && (element->type == ITEM)) {
+					if (Item* item = dynamic_cast<Item*>(element)) {
+						player->Drop(item);
+						found = true;
+						break;
+					}
+					else {
+						printMessage("That's not an item you can drop.");
+					}
+				}
+			}
+			if (!found) {
+				printMessage("This item doesn't exists.");
+			}
+		}
+		break;
+	case INVENTORY:
+		player->Inventory();
+		break;
+
+	case OPEN:
+		if (args.empty()) {
+			player->Open(NULL);
+		}
+		else {
+			for (entity* element : worldEntities) {
+				if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
+					if (Item* item = dynamic_cast<Item*>(element)) {
+						player->Open(item);
+						found = true;
+						break;
+					}
+					else {
+						printMessage("You can't open that.");
+					}
+				}
+			}
+			if (!found) {
+				printMessage("This item doesn't exists.");
+			}
+		}
+		break;
+	case SAVE:
+		if (args.empty()) {
+			player->Save(NULL, NULL);
+		}
+		else {
+			Item* first = NULL;
+			Item* second = NULL;
+			for (entity* element : worldEntities) {
+				if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == ITEM)) {
+					if (Item* item = dynamic_cast<Item*>(element)) {
+						first = item;
+						break;
+					}
+				}
+			}
+			if (first == NULL) {
+				printMessage("You don't have that first item");
+				break;
+			}
+			//Ignoring first item
+			args.erase(0, first->name.size());
+			//Ignoring " in "
+			args.erase(0, 4);
+			for (entity* element : worldEntities) {
+				if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == ITEM)) {
+					if (Item* item = dynamic_cast<Item*>(element)) {
+						second = item;
+						break;
+					}
+				}
+			}
+			if (first != NULL && second != NULL) {
+				player->Save(first, second);
+			}
+			else {
+				printMessage("You don't have that container.");
+			}
+		}
+		break;
+	case HELP:
+		player->Help();
+		break;
+	default:
+		return NONE;
+	}
+	return command->actions;
+}
+
+Command* World::getCommand(const string& input) {
+	Command* cmd = NULL;
+	for (Command* command : commands) {
+		if (command->IsCommand(input)) {
+			cmd = command;
+			break;
+		}
+	}
+	return cmd;
 }

@@ -16,6 +16,7 @@ public:
 	World();
 	virtual ~World();
 	Actions Input(const string& input);
+	Command * getCommand(const string& input);
 
 private:
 	Player* player;
