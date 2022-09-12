@@ -20,7 +20,7 @@ namespace  text {
 		cout << "1 word commands\n";
 		cout << "Inventory - List of player's inventory\n";
 		cout << "Look - Description of the room in which the player is located";
-		//cout << "End/Quit - End the game\n\n";
+		cout << "End/Quit - End the game\n";
 		cout << "2 word commands\n";
 		cout << "Look (entity) - Detailed description\n";
 		cout << "Move/Go (direction) - Player movement towards that direction\nPick/Take/Get (item) - Add item to player's inventory\n";

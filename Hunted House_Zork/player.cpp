@@ -44,16 +44,26 @@ bool Player::Help() {
 
 bool Player::Pick(Item* item) {
 	if (item == NULL) {
-		printMessage("Ups, you didn't say what you want to pick.");
+		printMessage("You didn't say what you want to take.");
 		return false;
 	}
-
 	bool found = false;
-	if (found)
-	{
+	for (Entity* iter : room->childEntities) {
+		if (compareString(iter->name, item->name)) {
+			if (item->iType != STATIC) {
+				found = true;
+				break;
+			}
+			else {
+				printMessage("You can't take that!");
+				return false;
+			}
+		}
+	}
+	if (found) {
 		room->childEntities.remove((Entity*)item);
 		childEntities.push_back((Entity*)item);
-		printMessage(item->name + "taken."s);
+		printMessage(item->name + " taken."s);
 	}
 	else {
 		printMessage(item->name + " not found in this room."s);
@@ -78,7 +88,7 @@ bool Player::Drop(Item* item) {
 	if (found) {
 		childEntities.remove((Entity*)item);
 		room->childEntities.push_back((Entity*)item);
-		printMessage(item->name + "dropped."s);
+		printMessage(item->name + " dropped."s);
 	}
 	else {
 		printMessage("You don't have that item."s);
@@ -114,7 +124,7 @@ bool Player::Open(Item* item) {
 	if (found) {
 		if (item->iType == CONTAINER) {
 			if (item->childEntities.empty() == false) {
-				printMessage("You open the "s + item->name + "and all of its content is added to your inventory.");
+				printMessage("You open the "s + item->name + " and all of its content is added to your inventory.");
 				for (Entity* contained : item->childEntities) {
 					printMessage(contained->name);
 					contained->parent = NULL;
@@ -123,7 +133,7 @@ bool Player::Open(Item* item) {
 				item->childEntities.clear();
 			}
 			else {
-				printMessage("The +" + item->name + "is empty.");
+				printMessage("The +" + item->name + " is empty.");
 			}
 		}
 		else {
@@ -154,7 +164,7 @@ bool Player::Save(Item* item, Item* container) {
 	if (itemFound && containerFound) {
 		item->changeParent(container);
 		childEntities.remove(item);
-		printMessage("Now "s + item->name + "is inside the "s + container->name + ".");
+		printMessage("Now "s + item->name + " is inside the "s + container->name + ".");
 	}
 	else {
 		printMessage("You don't have both items."s);

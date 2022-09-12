@@ -25,8 +25,9 @@ int main() {
 			getline(cin, playerInput);
 			end = true;
 		}
-
-
+		else if (actions == QUIT) {
+			end = true;
+		}
 		else if (actions == NONE) {
 			printMessage("Sorry, I don't understand you :("s);
 

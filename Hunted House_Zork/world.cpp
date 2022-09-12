@@ -7,7 +7,7 @@ using namespace text;
 World::World() {
 
 	commands = {
-		new Command({"pick" }, PICK, 1),
+		new Command({"pick", "take" }, PICK, 1),
 		new Command({"move", "go" }, MOVE, 1),
 		new Command({"inventory" }, INVENTORY, 1),
 		new Command({"drop"}, DROP, 1),
@@ -16,6 +16,7 @@ World::World() {
 		new Command({"end", "quit", "exit"}, END, 1),
 		new Command({"look"}, LOOK, 1),
 		new Command({ "open" }, OPEN, 1),
+		new Command({ "quit", "exit" }, QUIT, 1),
 
 	};
 
@@ -204,13 +205,13 @@ Actions World::Input(const string& input)
 		break;
 	case PICK:
 		if (args.empty()) {
-			player->Look(NULL);
+			player->Pick(NULL);
 		}
 		else {
 			for (Entity* element : worldEntities) {
 				if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
 					if (Item* item = dynamic_cast<Item*>(element)) {
-						player->Look(item);
+						player->Pick(item);
 						found = true;
 						break;
 					}
@@ -250,46 +251,46 @@ Actions World::Input(const string& input)
 		player->Inventory();
 		break;
 
-	case OPEN:
-		if (args.empty()) {
-			player->Open(NULL);
-		}
-		else {
-			for (Entity* element : worldEntities) {
-				if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
-					if (Item* item = dynamic_cast<Item*>(element)) {
-						player->Open(item);
-						found = true;
-						break;
-					}
-					else {
-						printMessage("You can't open that.");
-					}
-				}
+		case OPEN:
+			if (args.empty()) {
+				player->Open(NULL);
 			}
-			if (!found) {
-				printMessage("This item doesn't exists.");
-			}
-		}
-		break;
-	case SAVE:
-		if (args.empty()) {
-			player->Save(NULL, NULL);
-		}
-		else {
-			Item* first = NULL;
-			Item* second = NULL;
-			for (Entity* element : worldEntities) {
-				if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == ITEM)) {
-					if (Item* item = dynamic_cast<Item*>(element)) {
-						first = item;
-						break;
+			else {
+				for (Entity* element : worldEntities) {
+					if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
+						if (Item* item = dynamic_cast<Item*>(element)) {
+							player->Open(item);
+							found = true;
+							break;
+						}
+						else {
+							printMessage("You can't open that.");
+						}
 					}
 				}
+				if (!found) {
+					printMessage("This item doesn't exists.");
+				}
 			}
-			if (first == NULL) {
-				printMessage("You don't have that first item");
-				break;
+			break;
+		case SAVE:
+			if (args.empty()) {
+				player->Save(NULL, NULL);
+			}
+			else {
+				Item* first = NULL;
+				Item* second = NULL;
+				for (Entity* element : worldEntities) {
+					if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == ITEM)) {
+						if (Item* item = dynamic_cast<Item*>(element)) {
+							first = item;
+							break;
+						}
+					}
+				}
+				if (first == NULL) {
+					printMessage("You don't have that first item");
+					break;
 			}
 			//Ignoring first item
 			args.erase(0, first->name.size());

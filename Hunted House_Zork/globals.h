@@ -32,6 +32,7 @@ enum Actions {
 	INVENTORY,
 	HELP,
 	SAVE,
+	QUIT,
 	NONE
 };
 
