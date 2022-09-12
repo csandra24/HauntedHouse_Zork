@@ -10,6 +10,7 @@ enum class itemType {
 	STATIC,
 	SILVER_KEY,
 	GOLD_KEY,
+	megaUltraKey,
 	FOOD,
 	WEAPON,
 	CONTAINER

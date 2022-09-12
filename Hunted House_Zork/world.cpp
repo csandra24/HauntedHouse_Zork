@@ -40,7 +40,9 @@ World::World() {
 	Exit* basementToRoom = new Exit("You succeed in opening the door"s, ""s, basement, basementRoom, Directions::EAST);
 	Exit* roomToHall = new Exit("You walk up the stairs and arrive at..."s, ""s, basementRoom, hall, Directions::UP);
 	Exit* hallToKitchen = new Exit("Hall to kitchen"s, ""s, hall, kitchen, Directions::EAST);
+	/*Exit* kitchenToHall = new Exit("Kitchen to Hall"s, ""s, hall, kitchen, Directions::WEST);*/
 	Exit* hallToBedroom = new Exit("Hall to bedroom"s, ""s, hall, bedroom, Directions::WEST);
+	Exit* bedroomTOHall = new Exit("Bedroom to hall"s, ""s, hall, bedroom, Directions::EAST);
 	Exit* hallToOutdoor = new Exit("Hall to outdoor"s, ""s, hall, outdoor, Directions::NORTH);
 
 	worldEntities.push_back(basementToRoom);
@@ -48,46 +50,57 @@ World::World() {
 	worldEntities.push_back(hallToKitchen);
 	worldEntities.push_back(hallToBedroom);
 	worldEntities.push_back(hallToOutdoor);
+	/*worldEntities.push_back(kitchenToHall);*/
+	worldEntities.push_back(bedroomTOHall);
 
 	//items
 	Item* bag = new Item("Bag"s, "This is the backpack you had with you before you were attacked. Is there anything in it?", NULL, itemType::CONTAINER);
 	Item* box = new Item("Box"s, "It is a cardboard box of what looks like a fruit store, or not... or of some juegutes... pff, you can't read it is very blurry. "s, NULL, itemType::CONTAINER);
 	Item* peach = new Item("Peach"s, "Yellow, orange and juicy fruit."s, box, itemType::FOOD);
-	Item* silverKey = new Item("Silver Key"s, "descripción"s, bag, itemType::SILVER_KEY);
-	Item* kitchenCabinet = new Item("Kitchen Cabinet"s, "descripción"s, NULL, itemType::CONTAINER);
-	Item* kitchenCabinet1 = new Item("Kitchen Cabinet"s, "descripción"s, NULL, itemType::CONTAINER);
+	Item* lowerKeyPart = new Item("Lower key part"s, "descripción"s, bag, itemType::SILVER_KEY);
+	Item* albumRecipe = new Item("Album recipe"s, "descripción"s, NULL, itemType::CONTAINER);
+	Item* trash = new Item("Trash"s, "descripción"s, NULL, itemType::CONTAINER);
 	Item* fridge = new Item("Fridge"s, "descripción"s, NULL, itemType::CONTAINER);
-	Item* cookies = new Item("Cookies"s, "descripción"s, kitchenCabinet, itemType::FOOD);
-	Item* silverKey1 = new Item("Silver Key"s, "descripción"s, kitchenCabinet1, itemType::SILVER_KEY);
-	Item* firecracker = new Item("Firecrackers"s, "descripción"s, fridge, itemType::WEAPON);
-	Item* goldKey = new Item("Gold Key"s, "descripción"s, NULL, itemType::GOLD_KEY);
+	Item* cookies = new Item("Cookies"s, "descripción"s, albumRecipe, itemType::FOOD);
+	Item* middleKeyPart = new Item("Middle Key part"s, "descripción"s, trash, itemType::SILVER_KEY);
+	/*Item* firecracker = new Item("Firecrackers"s, "descripción"s, fridge, itemType::WEAPON);*/
+	Item* upperKeyPart = new Item("Upper key part"s, "descripción"s, NULL, itemType::GOLD_KEY);
 
 	worldEntities.push_back(bag);
 	worldEntities.push_back(box);
 	worldEntities.push_back(peach);
-	worldEntities.push_back(silverKey);
-	worldEntities.push_back(kitchenCabinet);
-	worldEntities.push_back(kitchenCabinet1);
+	worldEntities.push_back(lowerKeyPart);
+	worldEntities.push_back(albumRecipe);
+	worldEntities.push_back(trash);
 	worldEntities.push_back(fridge);
 	worldEntities.push_back(cookies);
-	worldEntities.push_back(silverKey1);
-	worldEntities.push_back(firecracker);
-	worldEntities.push_back(goldKey);
+	worldEntities.push_back(middleKeyPart);
+	/*worldEntities.push_back(firecracker);*/
+	worldEntities.push_back(upperKeyPart);
+
+	list<string> keyRecipe;
+	keyRecipe.push_back(lowerKeyPart->name);
+	keyRecipe.push_back(middleKeyPart->name);
+	keyRecipe.push_back(upperKeyPart->name);
+
+	CraftItem* megaUltraKey = new CraftItem("Mega Ultra Key\n"s, "Key hooked with adhesive tape able to open anything"s, NULL, itemType::megaUltraKey, keyRecipe);
+	
+	worldEntities.push_back(megaUltraKey);
 
 	player = new Player("Player"s, "You have woken up in the basement of an old house after being attacked, will you be able to get out?"s, basement);
-	Creature* slimeMonster = new Creature("Monster's name"s, "Descripción"s, basementRoom);
-	Creature* bedMonster = new Creature("Monster's name"s, "Descripción"s, bedroom);
+	/*Creature* slimeMonster = new Creature("Monster's name"s, "Descripción"s, basementRoom);
+	Creature* bedMonster = new Creature("Monster's name"s, "Descripción"s, bedroom);*/
 	
 	worldEntities.push_back(player);
-	worldEntities.push_back(bedMonster);
-	worldEntities.push_back(slimeMonster);
+	/*worldEntities.push_back(bedMonster);
+	worldEntities.push_back(slimeMonster);*/
 	
 	basement->addItem(bag);
 	basement->addItem(box);
-	kitchen->addItem(kitchenCabinet);
-	kitchen->addItem(kitchenCabinet1);
-	kitchen->addItem(fridge);
-	bedroom->addItem(goldKey);
+	basement->addItem(albumRecipe);
+	basement->addItem(trash);
+	basement->addItem(fridge);
+	basement->addItem(upperKeyPart);
 
 	printIntro();
 	player->Look(NULL);
