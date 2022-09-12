@@ -25,7 +25,7 @@ World::World() {
 	Room* hall = new Room("Hall\n"s, "It is a very large and spacious room, decorated like in the 60's, but the windows are all covered, making it\ndifficult to see. You can make out 3 doors in the dark, where do they lead to?\n"s);
 	Room* kitchen = new Room("Kitchen\n"s, "At the moment, the most colorful place in the house with blue tiles and floral print textiles.\n There are some cabinets open but others are closed, you can also see what looks like a refrigerator.\n"s);
 	Room* bedroom = new Room("Bedroom\n"s, "The room is covered in a nasty green slime, is there anything here?\n"s);
-	Room* outdoor = new Room("Outdoor\n"s, "You get out of the house, you are free! You breathe again the clean air of the street and see clearly the blue sky.\n"s);
+	Room* outdoor = new Room("Outdoor"s, "\n"s);
 	//Room* monster = new Room("Nombre lugar"s, "descripción..."s);
 
 	worldEntities.push_back(basement);
@@ -83,7 +83,7 @@ World::World() {
 	keyRecipe.push_back(middleKeyPart->name);
 	keyRecipe.push_back(upperKeyPart->name);
 
-	CraftItem* megaUltraKey = new CraftItem("Mega Ultra Key\n"s, "Key hooked with adhesive tape able to open anything"s, NULL, itemType::megaUltraKey, keyRecipe);
+	CraftItem* megaUltraKey = new CraftItem("Key"s, "Key hooked with adhesive tape able to open anything"s, NULL, itemType::megaUltraKey, keyRecipe);
 	
 	worldEntities.push_back(megaUltraKey);
 
@@ -173,32 +173,22 @@ Actions World::Input(const string& input)
 				statemovement = stateMovement::IDLE;
 			}
 		}
-		/*if (statemovement == stateMovement::STOP) {
-			bool gotSilverKey1 = false;
-			bool gotGoldKey = false;
+		if (statemovement == stateMovement::STOP) {
+			bool megaUltraKey = false;
 
 			for (Entity* item : player->childEntities) {
-				if (compareString(item->name, "Silver Key")) {
-					gotSilverKey1 = true;
-				}
-				else if (compareString(item->name, "Gold Key")) {
-					gotGoldKey = true;
+				if (compareString(item->name, "Key")) {
+					megaUltraKey = true;
 				}
 			}
-			if (gotSilverKey1 && gotGoldKey) {
-				printMessage("Has conseguido ambas llaves, consigues salir al exterior");
-			}
-			else if (gotSilverKey1) {
-				printMessage("Falta una de las llaves");
-			}
-			else if (gotGoldKey) {
-				printMessage("falta una llave");
+			if (megaUltraKey == true) {
+				printMessage("You get out of the house, you are free! You breathe again the clean air of the street and see clearly the blue sky.\n\n");
 			}
 			else {
-				printMessage("Sin ninguna llave no consigues salir fuera");
+				printMessage("You didn't manage to open the door, do you really think you got out?\n\n");
 			}
 			command->actions = Actions::END;
-		}*/
+		}
 		break;
 	case Actions::PICK:
 		if (args.empty()) {

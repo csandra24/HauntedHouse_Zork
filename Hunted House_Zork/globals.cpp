@@ -32,9 +32,8 @@ namespace  text {
 	}
 
 	void printIntro() {
-		cout << "You are about to enter the haunted house. Pensar textito\n";
-		cout << "Pensar textito\n";
-		cout << "Pensar textito\n";
+		cout << "The Hunted House\n\n";
+		cout << "After a terrible night of nightmares, you wake up in the basement of a house. How did you get there? Will you be able to get out?\n\n";
 		cout << "If you need help just type HELP\n\n";
 	}
 

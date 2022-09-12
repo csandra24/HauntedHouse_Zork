@@ -20,7 +20,7 @@ stateMovement Player::Move(const Directions directions) {
 	if (nextRoom != NULL) {
 		room = nextRoom;
 		Look(NULL);
-		if (compareString(room->name, "Name final room (criatura)")) {
+		if (compareString(room->name, "Outdoor")) {
 			return stateMovement::STOP;
 		}
 

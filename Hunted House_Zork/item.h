@@ -12,7 +12,7 @@ enum class itemType {
 	GOLD_KEY,
 	megaUltraKey,
 	FOOD,
-	WEAPON,
+	//WEAPON,
 	CONTAINER
 
 };

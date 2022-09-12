@@ -19,9 +19,9 @@ int main() {
 		actions = myWorld.Input(playerInput); 
 
 		if (actions == Actions::END) {
-			printMessage("Piensa un texto pa' el final");
+			printMessage("Thank you for playing, if you want to know more or share anything feel free to tell me.\n");
 			printMessage("By Sandra Campaña");
-			printMessage("SPAM LINK GITHUB");
+			printMessage("Github link to check the full project: https://github.com/csandra24/HauntedHouse_Zork");
 			getline(cin, playerInput);
 			end = true;
 		}
