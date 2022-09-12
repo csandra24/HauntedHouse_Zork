@@ -48,6 +48,28 @@ craft key
 go north -> Outdoor
 ```
 
+## Commands
+**1. Inventory** - List of player's inventory.
+
+**2. Look** - Description of the room in which the player is located.
+
+**3. End/Quit** - End the game.
+
+**4. Look** - Detailed description.
+
+**5. Move/Go (direction)** - Player movement towards that direction.
+
+**6. Pick/Take/Get (item)** - Add item to player's inventory.
+
+**7.	Drop (item)** - Remove item from player's inventory and leave it on the floor.
+
+**8.  Craft (recipe)** - Remove recipe's items from inventory and add the crafted one.
+
+**9.	Open (container)** - Open any container and put its content in player's inventory.
+
+**10.	Save/Put (item) in (container)** - Removes an object from the player's inventory and adds it to a container, such as a bag.
+
+
 ## License
 MIT License
 
