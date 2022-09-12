@@ -11,7 +11,7 @@
 using namespace std;
 /*using namespace text;*/
 
-enum stateMovement {
+enum class stateMovement {
 	IDLE,
 	MOVING,
 	STOP

@@ -2,7 +2,7 @@
 
 using namespace text;
 
-array<Directions, 6> directionString = { NORTH,SOUTH,EAST,WEST,UP,DOWN };
+array<Directions, 6> directionString = { Directions::NORTH,Directions::SOUTH,Directions::EAST,Directions::WEST,Directions::UP,Directions::DOWN };
 
 namespace  text {
 	void printMessage(string message) {
@@ -57,22 +57,22 @@ namespace  text {
 		bool equals = true;
 		string second = "";
 		switch (directions) {
-		case NORTH:
+		case Directions::NORTH:
 			second = "north";
 			break;
-		case SOUTH:
+		case Directions::SOUTH:
 			second = "south";
 			break;
-		case EAST:
+		case Directions::EAST:
 			second = "east";
 			break;
-		case WEST:
+		case Directions::WEST:
 			second = "west";
 			break;
-		case UP:
+		case Directions::UP:
 			second = "up";
 			break;
-		case DOWN:
+		case Directions::DOWN:
 			second = "down";
 			break;
 		}

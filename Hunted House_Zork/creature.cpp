@@ -6,7 +6,7 @@
 Creature::Creature(const string name, const string description, Room* room) :
 	Entity(name, description), room(room)
 {
-	type = CREATURE;
+	type = entityType::CREATURE;
 }
 
 Creature::~Creature()

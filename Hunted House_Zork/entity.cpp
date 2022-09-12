@@ -4,14 +4,14 @@
 Entity::Entity(const string name, const string description, Entity* parent) :
 	name(name), description(description), parent(parent) 
 {
-	type = ENTITY;
+	type = entityType::ENTITY;
 	if (parent != NULL) {
 		parent->childEntities.push_back(this);
 	}
 }
 
 Entity::Entity(const string name, const string description) : Entity(name, description, NULL) {
-	type: ENTITY;
+	type = entityType::ENTITY;
 }
 
 Entity::~Entity() {

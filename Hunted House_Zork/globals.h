@@ -10,7 +10,7 @@ using namespace std;
 
 //Directions' variable
 
-enum Directions {
+enum class Directions { 
 	NOWHERE = 0,
 	NORTH = 1,
 	SOUTH = -1,
@@ -22,7 +22,7 @@ enum Directions {
 
 extern array <Directions, 6> directionString; 
 
-enum Actions {
+enum  class Actions { 
 	PICK,
 	DROP,
 	MOVE,

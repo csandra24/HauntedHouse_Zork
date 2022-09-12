@@ -7,16 +7,16 @@ using namespace text;
 World::World() {
 
 	commands = {
-		new Command({"pick", "take" }, PICK, 1),
-		new Command({"move", "go" }, MOVE, 1),
-		new Command({"inventory" }, INVENTORY, 1),
-		new Command({"drop"}, DROP, 1),
-		new Command({"save", "put" }, SAVE, 1),
-		new Command({ "help" }, HELP, 1),
-		new Command({"end", "quit", "exit"}, END, 1),
-		new Command({"look"}, LOOK, 1),
-		new Command({ "open" }, OPEN, 1),
-		new Command({ "quit", "exit" }, QUIT, 1),
+		new Command({"pick", "take" }, Actions::PICK, 1),
+		new Command({"move", "go" }, Actions::MOVE, 1),
+		new Command({"inventory" }, Actions::INVENTORY, 1),
+		new Command({"drop"}, Actions::DROP, 1),
+		new Command({"save", "put" }, Actions::SAVE, 1),
+		new Command({ "help" }, Actions::HELP, 1),
+		new Command({"end", "quit", "exit"}, Actions::END, 1),
+		new Command({"look"}, Actions::LOOK, 1),
+		new Command({ "open" }, Actions::OPEN, 1),
+		new Command({ "quit", "exit" }, Actions::QUIT, 1),
 
 	};
 
@@ -37,11 +37,11 @@ World::World() {
 	//worldEntities.push_back(monster);
 
 	// exit
-	Exit* basementToRoom = new Exit("You succeed in opening the door"s, ""s, basement, basementRoom, EAST);
-	Exit* roomToHall = new Exit("You walk up the stairs and arrive at..."s, ""s, basementRoom, hall, UP);
-	Exit* hallToKitchen = new Exit("Hall to kitchen"s, ""s, hall, kitchen, EAST);
-	Exit* hallToBedroom = new Exit("Hall to bedroom"s, ""s, hall, bedroom, WEST);
-	Exit* hallToOutdoor = new Exit("Hall to outdoor"s, ""s, hall, outdoor, NORTH);
+	Exit* basementToRoom = new Exit("You succeed in opening the door"s, ""s, basement, basementRoom, Directions::EAST);
+	Exit* roomToHall = new Exit("You walk up the stairs and arrive at..."s, ""s, basementRoom, hall, Directions::UP);
+	Exit* hallToKitchen = new Exit("Hall to kitchen"s, ""s, hall, kitchen, Directions::EAST);
+	Exit* hallToBedroom = new Exit("Hall to bedroom"s, ""s, hall, bedroom, Directions::WEST);
+	Exit* hallToOutdoor = new Exit("Hall to outdoor"s, ""s, hall, outdoor, Directions::NORTH);
 
 	worldEntities.push_back(basementToRoom);
 	worldEntities.push_back(roomToHall);
@@ -50,18 +50,18 @@ World::World() {
 	worldEntities.push_back(hallToOutdoor);
 
 	//items
-	Item* bag = new Item("Bag"s, "This is the backpack you had with you before you were attacked. Is there anything in it?", NULL, CONTAINER);
-	Item* box = new Item("Box"s, "It is a cardboard box of what looks like a fruit store, or not... or of some juegutes... pff, you can't read it is very blurry. "s, NULL, CONTAINER);
-	Item* peach = new Item("Peach"s, "Yellow, orange and juicy fruit."s, box, FOOD);
-	Item* closet = new Item("Closet"s, "descripción"s, NULL, CONTAINER);
-	Item* silverKey = new Item("Silver Key"s, "descripción"s, closet, SILVER_KEY);
-	Item* kitchenCabinet = new Item("Kitchen Cabinet"s, "descripción"s, NULL, CONTAINER);
-	Item* kitchenCabinet1 = new Item("Kitchen Cabinet"s, "descripción"s, NULL, CONTAINER);
-	Item* fridge = new Item("Fridge"s, "descripción"s, NULL, CONTAINER);
-	Item* cookies = new Item("Cookies"s, "descripción"s, kitchenCabinet, FOOD);
-	Item* silverKey1 = new Item("Silver Key"s, "descripción"s, kitchenCabinet1, SILVER_KEY);
-	Item* firecracker = new Item("Firecrackers"s, "descripción"s, fridge, WEAPON);
-	Item* goldKey = new Item("Gold Key"s, "descripción"s, NULL, GOLD_KEY);
+	Item* bag = new Item("Bag"s, "This is the backpack you had with you before you were attacked. Is there anything in it?", NULL, itemType::CONTAINER);
+	Item* box = new Item("Box"s, "It is a cardboard box of what looks like a fruit store, or not... or of some juegutes... pff, you can't read it is very blurry. "s, NULL, itemType::CONTAINER);
+	Item* peach = new Item("Peach"s, "Yellow, orange and juicy fruit."s, box, itemType::FOOD);
+	Item* closet = new Item("Closet"s, "descripción"s, NULL, itemType::CONTAINER);
+	Item* silverKey = new Item("Silver Key"s, "descripción"s, closet, itemType::SILVER_KEY);
+	Item* kitchenCabinet = new Item("Kitchen Cabinet"s, "descripción"s, NULL, itemType::CONTAINER);
+	Item* kitchenCabinet1 = new Item("Kitchen Cabinet"s, "descripción"s, NULL, itemType::CONTAINER);
+	Item* fridge = new Item("Fridge"s, "descripción"s, NULL, itemType::CONTAINER);
+	Item* cookies = new Item("Cookies"s, "descripción"s, kitchenCabinet, itemType::FOOD);
+	Item* silverKey1 = new Item("Silver Key"s, "descripción"s, kitchenCabinet1, itemType::SILVER_KEY);
+	Item* firecracker = new Item("Firecrackers"s, "descripción"s, fridge, itemType::WEAPON);
+	Item* goldKey = new Item("Gold Key"s, "descripción"s, NULL, itemType::GOLD_KEY);
 
 	worldEntities.push_back(bag);
 	worldEntities.push_back(box);
@@ -130,25 +130,25 @@ Actions World::Input(const string& input)
 	bool found = false;
 
 	if (input.size() == 0) {
-		return NONE;
+		return Actions::NONE;
 	}
 
 	command = getCommand(input);
 
 	if (command == NULL) {
-		return NONE;
+		return Actions::NONE;
 	}
 
 	args = command->GetArguments(input);
 
 	switch (command->actions) {
-	case LOOK:
+	case Actions::LOOK:
 		if (args.empty()) {
 			player->Look(NULL);
 		}
 		else {
 			for (Entity* element : worldEntities) {
-				if (compareString(args, element->name) && element->parent == NULL && element->type != EXIT) {
+				if (compareString(args, element->name) && element->parent == NULL && element->type != entityType::EXIT) {
 					player->Look(element);
 					found = true;
 					break;
@@ -159,9 +159,9 @@ Actions World::Input(const string& input)
 			}
 		}
 		break;
-	case MOVE:
+	case Actions::MOVE:
 		if (args.empty()) {
-			statemovement = player->Move(NOWHERE);
+			statemovement = player->Move(Directions::NOWHERE);
 		}
 		else {
 			for (Directions directions : directionString) {
@@ -173,10 +173,10 @@ Actions World::Input(const string& input)
 			}
 			if (!found) {
 				printMessage("I didn't not understand where you want to go.");
-				statemovement = IDLE;
+				statemovement = stateMovement::IDLE;
 			}
 		}
-		if (statemovement == STOP) {
+		if (statemovement == stateMovement::STOP) {
 			bool gotSilverKey1 = false;
 			bool gotGoldKey = false;
 
@@ -200,16 +200,16 @@ Actions World::Input(const string& input)
 			else {
 				printMessage("Sin ninguna llave no consigues salir fuera");
 			}
-			command->actions = END;
+			command->actions = Actions::END;
 		}
 		break;
-	case PICK:
+	case Actions::PICK:
 		if (args.empty()) {
 			player->Pick(NULL);
 		}
 		else {
 			for (Entity* element : worldEntities) {
-				if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
+				if (compareString(args, element->name) && element->parent == NULL && (element->type == entityType::ITEM)) {
 					if (Item* item = dynamic_cast<Item*>(element)) {
 						player->Pick(item);
 						found = true;
@@ -225,13 +225,13 @@ Actions World::Input(const string& input)
 			}
 		}
 		break;
-	case DROP:
+	case Actions::DROP:
 		if (args.empty()) {
 			player->Drop(NULL);
 		}
 		else {
 			for (Entity* element : player->childEntities) {
-				if (compareString(args, element->name) && (element->type == ITEM)) {
+				if (compareString(args, element->name) && (element->type == entityType::ITEM)) {
 					if (Item* item = dynamic_cast<Item*>(element)) {
 						player->Drop(item);
 						found = true;
@@ -247,17 +247,17 @@ Actions World::Input(const string& input)
 			}
 		}
 		break;
-	case INVENTORY:
+	case Actions::INVENTORY:
 		player->Inventory();
 		break;
 
-		case OPEN:
+		case Actions::OPEN:
 			if (args.empty()) {
 				player->Open(NULL);
 			}
 			else {
 				for (Entity* element : worldEntities) {
-					if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
+					if (compareString(args, element->name) && element->parent == NULL && (element->type == entityType::ITEM)) {
 						if (Item* item = dynamic_cast<Item*>(element)) {
 							player->Open(item);
 							found = true;
@@ -273,7 +273,7 @@ Actions World::Input(const string& input)
 				}
 			}
 			break;
-		case SAVE:
+		case Actions::SAVE:
 			if (args.empty()) {
 				player->Save(NULL, NULL);
 			}
@@ -281,7 +281,7 @@ Actions World::Input(const string& input)
 				Item* first = NULL;
 				Item* second = NULL;
 				for (Entity* element : worldEntities) {
-					if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == ITEM)) {
+					if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == entityType::ITEM)) {
 						if (Item* item = dynamic_cast<Item*>(element)) {
 							first = item;
 							break;
@@ -297,7 +297,7 @@ Actions World::Input(const string& input)
 			//Ignoring " in "
 			args.erase(0, 4);
 			for (Entity* element : worldEntities) {
-				if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == ITEM)) {
+				if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == entityType::ITEM)) {
 					if (Item* item = dynamic_cast<Item*>(element)) {
 						second = item;
 						break;
@@ -312,11 +312,11 @@ Actions World::Input(const string& input)
 			}
 		}
 		break;
-	case HELP:
+	case Actions::HELP:
 		player->Help();
 		break;
 	default:
-		return NONE;
+		return Actions::NONE;
 	}
 	return command->actions;
 }

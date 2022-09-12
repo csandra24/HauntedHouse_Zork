@@ -4,7 +4,7 @@
 using namespace text;
 
 Room::Room(const string name, const string description) : Entity(name, description) {
-	type = ROOM;
+	type = entityType::ROOM;
 	childExits = {};
 }
 
@@ -30,7 +30,7 @@ Room* Room::getRoom(const Directions directions) {
 			result = iter->destination;
 			break;
 		}
-		else if (iter->destination == this && -directions == iter->directions) {
+		else if (iter->destination == this && directions == iter->directions) {
 			result = iter->origin;
 			break;
 		}

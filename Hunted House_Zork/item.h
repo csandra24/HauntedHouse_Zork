@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum itemType {
+enum class itemType { 
 	STATIC,
 	SILVER_KEY,
 	GOLD_KEY,

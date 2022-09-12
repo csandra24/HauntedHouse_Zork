@@ -1,7 +1,7 @@
 #include "item.h"
 
 Item::Item(const string name, const string description, Entity* parent, const itemType iType) : Entity(name, description, parent), iType(iType) {
-	type = ITEM;
+	type = entityType::ITEM;
 }
 
 Item::~Item() {

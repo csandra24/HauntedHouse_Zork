@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum entityType
+enum class entityType
 {
 	ENTITY,
 	CREATURE,

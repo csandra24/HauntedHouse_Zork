@@ -4,16 +4,16 @@ using namespace text;
 
 Player::Player(const string name, const string description, Room* room) : Creature(name, description, room)
 {
-	type = PLAYER;
+	type = entityType::PLAYER;
 }
 
 Player::~Player(){}
 
 stateMovement Player::Move(const Directions directions) {
 
-	if (directions == NOWHERE) {
+	if (directions == Directions::NOWHERE) {
 		printMessage("NO SABE DONDE IR UWU");
-		return IDLE;
+		return stateMovement::IDLE;
 	}
 
 	Room* nextRoom = room->getRoom(directions);
@@ -21,16 +21,16 @@ stateMovement Player::Move(const Directions directions) {
 		room = nextRoom;
 		Look(NULL);
 		if (compareString(room->name, "Name final room (criatura)")) {
-			return STOP;
+			return stateMovement::STOP;
 		}
 
 		else {
-			return MOVING;
+			return stateMovement::MOVING;
 		}
 		
 	}
 	printMessage("You can't go that way.");
-	return IDLE;
+	return stateMovement::IDLE;
 
 }
 
@@ -50,7 +50,7 @@ bool Player::Pick(Item* item) {
 	bool found = false;
 	for (Entity* iter : room->childEntities) {
 		if (compareString(iter->name, item->name)) {
-			if (item->iType != STATIC) {
+			if (item->iType != itemType::STATIC) {
 				found = true;
 				break;
 			}
@@ -79,7 +79,7 @@ bool Player::Drop(Item* item) {
 	bool found = false;
 	for (Entity* iter : childEntities) {
 		if (compareString(iter->name, item->name)) {
-			if (item->iType != STATIC) {
+			if (item->iType != itemType::STATIC) {
 				found = true;
 				break;
 			}
@@ -122,7 +122,7 @@ bool Player::Open(Item* item) {
 		}
 	}
 	if (found) {
-		if (item->iType == CONTAINER) {
+		if (item->iType == itemType::CONTAINER) {
 			if (item->childEntities.empty() == false) {
 				printMessage("You open the "s + item->name + " and all of its content is added to your inventory.");
 				for (Entity* contained : item->childEntities) {
@@ -157,7 +157,7 @@ bool Player::Save(Item* item, Item* container) {
 		if (compareString(iter->name, item->name)) {
 			itemFound = true;
 		}
-		else if (compareString(iter->name, container->name) && container->iType == CONTAINER) {
+		else if (compareString(iter->name, container->name) && container->iType == itemType::CONTAINER) {
 			containerFound = true;
 		}
 	}

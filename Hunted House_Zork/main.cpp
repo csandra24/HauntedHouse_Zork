@@ -18,17 +18,17 @@ int main() {
 
 		actions = myWorld.Input(playerInput); 
 
-		if (actions == END) {
+		if (actions == Actions::END) {
 			printMessage("Piensa un texto pa' el final");
 			printMessage("By Sandra Campaña");
 			printMessage("SPAM LINK GITHUB");
 			getline(cin, playerInput);
 			end = true;
 		}
-		else if (actions == QUIT) {
+		else if (actions == Actions::QUIT) {
 			end = true;
 		}
-		else if (actions == NONE) {
+		else if (actions == Actions::NONE) {
 			printMessage("Sorry, I don't understand you :("s);
 
 		}
