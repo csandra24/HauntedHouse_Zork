@@ -112,9 +112,9 @@ bool Player::Open(Item* item) {
 		}
 	}
 	if (found) {
-		if (item->iType == BAG) {
+		if (item->iType == CONTAINER) {
 			if (item->childEntities.empty() == false) {
-				printMessage("You open the "s + item->name);
+				printMessage("You open the "s + item->name + "and all of its content is added to your inventory.");
 				for (Entity* contained : item->childEntities) {
 					printMessage(contained->name);
 					contained->parent = NULL;
@@ -147,7 +147,7 @@ bool Player::Save(Item* item, Item* container) {
 		if (compareString(iter->name, item->name)) {
 			itemFound = true;
 		}
-		else if (compareString(iter->name, container->name) && container->iType == BAG) {
+		else if (compareString(iter->name, container->name) && container->iType == CONTAINER) {
 			containerFound = true;
 		}
 	}

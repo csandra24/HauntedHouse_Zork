@@ -7,18 +7,19 @@ using namespace text;
 World::World() {
 
 	commands = {
-		new Command({"pick", "take", "get" }, PICK, 1),
+		new Command({"pick" }, PICK, 1),
 		new Command({"move", "go" }, MOVE, 1),
 		new Command({"inventory" }, INVENTORY, 1),
 		new Command({"drop"}, DROP, 1),
 		new Command({"save", "put" }, SAVE, 1),
 		new Command({ "help" }, HELP, 1),
 		new Command({"end", "quit", "exit"}, END, 1),
-		new Command({"look"}, LOOK, 1)
+		new Command({"look"}, LOOK, 1),
+		new Command({ "open" }, OPEN, 1),
 
 	};
 
-	Room* basement  = new Room("Basement"s, "It is a dark and damp place, illuminated by a light bulb hanging from the ceiling. There is an old closet and a box with a blurred label, not sure what it says. To the east of the basement there is a large metal door, what will be on the other side, will that cabinet or that box hold any useful object?"s);
+	Room* basement  = new Room("Basement"s, "It is a dark and damp place, illuminated by a light bulb hanging from the ceiling.\nThere is an old closet and a box with a blurred label, but your not sure what it says.\nTo the east of the basement there is a large metal door,\nwhat will be on the other side, will that cabinet or that box hold any useful object?"s);
 	Room* basementRoom = new Room("Basement's hall"s, "You are plunged into total darkness, unable to recognize anything. You start to hear strange noises. Is there something else there? Is that a staircase over there?"s);
 	Room* hall = new Room("Hall"s, "It is a very large and spacious room, decorated like in the 60's, but the windows are all covered, making it difficult to see. You can make out 3 doors in the dark, where do they lead to?"s);
 	Room* kitchen = new Room("Kitchen"s, "At the moment, the most colorful place in the house with blue tiles and floral print textiles. There are some cabinets open but others are closed, you can also see what looks like a refrigerator."s);
@@ -48,14 +49,14 @@ World::World() {
 	worldEntities.push_back(hallToOutdoor);
 
 	//items
-	Item* bag = new Item("Bag"s, "This is the backpack you had with you before you were attacked. Is there anything in it?", NULL, BAG);
-	Item* box = new Item("Box"s, "It is a cardboard box of what looks like a fruit store, or not... or of some juegutes... pff, you can't read it is very blurry. "s, NULL, BAG);
+	Item* bag = new Item("Bag"s, "This is the backpack you had with you before you were attacked. Is there anything in it?", NULL, CONTAINER);
+	Item* box = new Item("Box"s, "It is a cardboard box of what looks like a fruit store, or not... or of some juegutes... pff, you can't read it is very blurry. "s, NULL, CONTAINER);
 	Item* peach = new Item("Peach"s, "Yellow, orange and juicy fruit."s, box, FOOD);
-	Item* closet = new Item("Closet"s, "descripción"s, NULL, BAG);
+	Item* closet = new Item("Closet"s, "descripción"s, NULL, CONTAINER);
 	Item* silverKey = new Item("Silver Key"s, "descripción"s, closet, SILVER_KEY);
-	Item* kitchenCabinet = new Item("Kitchen Cabinet"s, "descripción"s, NULL, BAG);
-	Item* kitchenCabinet1 = new Item("Kitchen Cabinet"s, "descripción"s, NULL, BAG);
-	Item* fridge = new Item("Fridge"s, "descripción"s, NULL, BAG);
+	Item* kitchenCabinet = new Item("Kitchen Cabinet"s, "descripción"s, NULL, CONTAINER);
+	Item* kitchenCabinet1 = new Item("Kitchen Cabinet"s, "descripción"s, NULL, CONTAINER);
+	Item* fridge = new Item("Fridge"s, "descripción"s, NULL, CONTAINER);
 	Item* cookies = new Item("Cookies"s, "descripción"s, kitchenCabinet, FOOD);
 	Item* silverKey1 = new Item("Silver Key"s, "descripción"s, kitchenCabinet1, SILVER_KEY);
 	Item* firecracker = new Item("Firecrackers"s, "descripción"s, fridge, WEAPON);
@@ -203,20 +204,23 @@ Actions World::Input(const string& input)
 		break;
 	case PICK:
 		if (args.empty()) {
-			player->Pick(NULL);
+			player->Look(NULL);
 		}
 		else {
 			for (Entity* element : worldEntities) {
 				if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
 					if (Item* item = dynamic_cast<Item*>(element)) {
-						player->Pick(item);
+						player->Look(item);
 						found = true;
 						break;
+					}
+					else {
+						printMessage("That's not an item you can take.");
 					}
 				}
 			}
 			if (!found) {
-				printMessage("This item doesn't exists.");
+				printMessage("This item does not exists.");
 			}
 		}
 		break;

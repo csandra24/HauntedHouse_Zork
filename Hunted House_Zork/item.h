@@ -12,7 +12,7 @@ enum itemType {
 	GOLD_KEY,
 	FOOD,
 	WEAPON,
-	BAG
+	CONTAINER
 
 };
 
