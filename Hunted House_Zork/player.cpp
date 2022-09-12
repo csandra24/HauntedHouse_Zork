@@ -177,7 +177,7 @@ bool Player::Look(const Entity* entity) {
 	if (entity == NULL) {
 		printMessage(room->name, room->description);
 		if (room->childEntities.empty() == false) {
-			printMessage("In this place you can see:");
+			printMessage("In this place you can see:\n");
 			for (Entity* object : room->childEntities) {
 				string obj = object->name;
 				obj[0] = (char)tolower(object->name[0]);

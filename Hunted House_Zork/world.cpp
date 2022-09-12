@@ -10,23 +10,22 @@ World::World() {
 		new Command({"pick", "take" }, Actions::PICK, 1),
 		new Command({"move", "go" }, Actions::MOVE, 1),
 		new Command({"inventory" }, Actions::INVENTORY, 1),
-		new Command({"drop"}, Actions::DROP, 1),
+		new Command({"drop" }, Actions::DROP, 1),
 		new Command({"save", "put" }, Actions::SAVE, 1),
 		new Command({ "help" }, Actions::HELP, 1),
-		new Command({"end", "quit", "exit"}, Actions::END, 1),
 		new Command({"look"}, Actions::LOOK, 1),
 		new Command({ "open" }, Actions::OPEN, 1),
-		new Command({ "quit", "exit" }, Actions::QUIT, 1),
+		new Command({ "quit", "exit", "end" }, Actions::QUIT, 1),
 		new Command({"craft" }, Actions::CRAFT, 1)
 
 	};
 
-	Room* basement  = new Room("Basement"s, "It is a dark and damp place, illuminated by a light bulb hanging from the ceiling.\nThere is an old closet and a box with a blurred label, but your not sure what it says.\nTo the east of the basement there is a large metal door,\nwhat will be on the other side, will that cabinet or that box hold any useful object?"s);
-	Room* basementRoom = new Room("Basement's hall"s, "You are plunged into total darkness, unable to recognize anything. You start to hear strange noises. Is there something else there? Is that a staircase over there?"s);
-	Room* hall = new Room("Hall"s, "It is a very large and spacious room, decorated like in the 60's, but the windows are all covered, making it difficult to see. You can make out 3 doors in the dark, where do they lead to?"s);
-	Room* kitchen = new Room("Kitchen"s, "At the moment, the most colorful place in the house with blue tiles and floral print textiles. There are some cabinets open but others are closed, you can also see what looks like a refrigerator."s);
-	Room* bedroom = new Room("Bedroom"s, "The room is covered in a nasty green slime, is there another monster in here? BOOM, it appears in front of you"s);
-	Room* outdoor = new Room("Outdoor"s, "You get out of the house, you are free! You breathe again the clean air of the street and see clearly the blue sky."s);
+	Room* basement  = new Room("Basement\n"s, "It is a dark and damp place, illuminated by a light bulb hanging from the ceiling.\nThere is an old closet and a box with a blurred label, but your not sure what it says.\nTo the east of the basement there is a large metal door,\nwhat will be on the other side, will that cabinet or that box hold any useful object?\n"s);
+	Room* basementRoom = new Room("Basement's hall\n"s, "You are plunged into total darkness, unable to recognize anything. You start to hear strange noises.\nIs there something else there? Is that a staircase over there(up)?\n"s);
+	Room* hall = new Room("Hall\n"s, "It is a very large and spacious room, decorated like in the 60's, but the windows are all covered, making it\ndifficult to see. You can make out 3 doors in the dark, where do they lead to?\n"s);
+	Room* kitchen = new Room("Kitchen\n"s, "At the moment, the most colorful place in the house with blue tiles and floral print textiles.\n There are some cabinets open but others are closed, you can also see what looks like a refrigerator.\n"s);
+	Room* bedroom = new Room("Bedroom\n"s, "The room is covered in a nasty green slime, is there anything here?\n"s);
+	Room* outdoor = new Room("Outdoor\n"s, "You get out of the house, you are free! You breathe again the clean air of the street and see clearly the blue sky.\n"s);
 	//Room* monster = new Room("Nombre lugar"s, "descripción..."s);
 
 	worldEntities.push_back(basement);
@@ -54,8 +53,7 @@ World::World() {
 	Item* bag = new Item("Bag"s, "This is the backpack you had with you before you were attacked. Is there anything in it?", NULL, itemType::CONTAINER);
 	Item* box = new Item("Box"s, "It is a cardboard box of what looks like a fruit store, or not... or of some juegutes... pff, you can't read it is very blurry. "s, NULL, itemType::CONTAINER);
 	Item* peach = new Item("Peach"s, "Yellow, orange and juicy fruit."s, box, itemType::FOOD);
-	Item* closet = new Item("Closet"s, "descripción"s, NULL, itemType::CONTAINER);
-	Item* silverKey = new Item("Silver Key"s, "descripción"s, closet, itemType::SILVER_KEY);
+	Item* silverKey = new Item("Silver Key"s, "descripción"s, bag, itemType::SILVER_KEY);
 	Item* kitchenCabinet = new Item("Kitchen Cabinet"s, "descripción"s, NULL, itemType::CONTAINER);
 	Item* kitchenCabinet1 = new Item("Kitchen Cabinet"s, "descripción"s, NULL, itemType::CONTAINER);
 	Item* fridge = new Item("Fridge"s, "descripción"s, NULL, itemType::CONTAINER);
@@ -67,7 +65,6 @@ World::World() {
 	worldEntities.push_back(bag);
 	worldEntities.push_back(box);
 	worldEntities.push_back(peach);
-	worldEntities.push_back(closet);
 	worldEntities.push_back(silverKey);
 	worldEntities.push_back(kitchenCabinet);
 	worldEntities.push_back(kitchenCabinet1);
@@ -85,9 +82,8 @@ World::World() {
 	worldEntities.push_back(bedMonster);
 	worldEntities.push_back(slimeMonster);
 	
-
+	basement->addItem(bag);
 	basement->addItem(box);
-	basement->addItem(closet);
 	kitchen->addItem(kitchenCabinet);
 	kitchen->addItem(kitchenCabinet1);
 	kitchen->addItem(fridge);
@@ -164,7 +160,7 @@ Actions World::Input(const string& input)
 				statemovement = stateMovement::IDLE;
 			}
 		}
-		if (statemovement == stateMovement::STOP) {
+		/*if (statemovement == stateMovement::STOP) {
 			bool gotSilverKey1 = false;
 			bool gotGoldKey = false;
 
@@ -189,7 +185,7 @@ Actions World::Input(const string& input)
 				printMessage("Sin ninguna llave no consigues salir fuera");
 			}
 			command->actions = Actions::END;
-		}
+		}*/
 		break;
 	case Actions::PICK:
 		if (args.empty()) {
@@ -324,6 +320,8 @@ Actions World::Input(const string& input)
 			break;
 	case Actions::HELP:
 		player->Help();
+		break;
+	case Actions::QUIT:
 		break;
 	default:
 		return Actions::NONE;

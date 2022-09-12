@@ -17,16 +17,17 @@ namespace  text {
 	}
 
 	void printHelp() {
-		cout << "1 word commands\n";
-		cout << "Inventory - List of player's inventory\n";
-		cout << "Look - Description of the room in which the player is located";
-		cout << "End/Quit - End the game\n";
-		cout << "2 word commands\n";
-		cout << "Look (entity) - Detailed description\n";
-		cout << "Move/Go (direction) - Player movement towards that direction\nPick/Take/Get (item) - Add item to player's inventory\n";
-		cout << "Drop (item) - Remove item from player's inventory and leave it on the floor\n";
-		cout << "Open (container) - Open any container and put its content in player's inventory\n\n";
-		cout << "4 word commands\n";
+		cout << "1 word commands\n\n";
+		cout << "Inventory - List of player's inventory\n\n";
+		cout << "Look - Description of the room in which the player is located\n\n";
+		cout << "End/Quit - End the game\n\n\n";
+		cout << "2 word commands\n\n";
+		cout << "Look (entity) - Detailed description\n\n";
+		cout << "Move/Go (direction) - Player movement towards that direction\nPick/Take/Get (item) - Add item to player's inventory\n\n";
+		cout << "Drop (item) - Remove item from player's inventory and leave it on the floor\n\n";
+		cout << "Craft (receipe) - Remove recipe's items from inventory and add the crafted one.\n\n"; 
+		cout << "Open (container) - Open any container and put its content in player's inventory\n\n\n";
+		cout << "4 word commands\n\n";
 		cout << "Save/Put (item) in (container) - Removes an object from the player's inventory and adds it to a container, such as a bag.\n";
 	}
 
