@@ -12,7 +12,7 @@ Player::~Player(){}
 stateMovement Player::Move(const Directions directions) {
 
 	if (directions == Directions::NOWHERE) {
-		printMessage("NO SABE DONDE IR UWU");
+		printMessage("You don't seem to know exactly where to go.");
 		return stateMovement::IDLE;
 	}
 
@@ -245,7 +245,7 @@ bool Player::Craft(CraftItem* craftItem) {
 			childEntities.remove(item);
 		}
 		childEntities.push_back(craftItem);
-		string message = craftItem->name + "crafted."s;
+		string message = craftItem->name + " crafted."s;
 		printMessage(message);
 	}
 	return crafted;
