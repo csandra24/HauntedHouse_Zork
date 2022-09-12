@@ -33,7 +33,8 @@ enum  class Actions {
 	HELP,
 	SAVE,
 	QUIT,
-	NONE
+	NONE,
+	CRAFT
 };
 
 class Command

@@ -17,6 +17,7 @@ World::World() {
 		new Command({"look"}, Actions::LOOK, 1),
 		new Command({ "open" }, Actions::OPEN, 1),
 		new Command({ "quit", "exit" }, Actions::QUIT, 1),
+		new Command({"craft" }, Actions::CRAFT, 1)
 
 	};
 
@@ -94,19 +95,6 @@ World::World() {
 
 	printIntro();
 	player->Look(NULL);
-
-	//posar sota de items
-	/*bool gotSilverKey = false;
-	bool gotGoldKey = false;
-
-	for (entity* item : Player->childEntities) {
-		if (compareString(item->name, "Silver Key")) {
-			gotSilverKey = true;
-		}
-		else if (compareString(item->name, "Gold Key")) {
-			gotGoldKey = true;
-		}
-	}*/
 
 }
 
@@ -312,6 +300,28 @@ Actions World::Input(const string& input)
 			}
 		}
 		break;
+		case Actions::CRAFT:
+			if (args.empty()) {
+				player->Craft(NULL);
+			}
+			else {
+				for (Entity* element : worldEntities) {
+					if (compareString(args, element->name) && (element->type == entityType::ITEM)) {
+						if (CraftItem* item = dynamic_cast<CraftItem*>(element)) {
+							player->Craft(item);
+							found = true;
+							break;
+						}
+						else {
+							printMessage("This item can't be craft.");
+						}
+					}
+				}
+				if (!found) {
+					printMessage("This item doesn't exists.");
+				}
+			}
+			break;
 	case Actions::HELP:
 		player->Help();
 		break;

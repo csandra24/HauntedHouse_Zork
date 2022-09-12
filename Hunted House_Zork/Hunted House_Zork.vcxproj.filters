@@ -40,6 +40,9 @@
     <ClCompile Include="creature.cpp">
       <Filter>Archivos de origen\C++</Filter>
     </ClCompile>
+    <ClCompile Include="craftitem.cpp">
+      <Filter>Archivos de origen\C++</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="globals.h">
@@ -64,6 +67,9 @@
       <Filter>Archivos de origen\Header</Filter>
     </ClInclude>
     <ClInclude Include="creature.h">
+      <Filter>Archivos de origen\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="craftitem.h">
       <Filter>Archivos de origen\Header</Filter>
     </ClInclude>
   </ItemGroup>

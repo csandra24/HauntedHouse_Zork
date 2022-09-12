@@ -215,3 +215,39 @@ bool Player::Look(const Entity* entity) {
 	return found;
 }
 
+bool Player::Craft(CraftItem* craftItem) {
+	if (craftItem == NULL) {
+		printMessage("Ups, you didn't mention what you want to craft.");
+		return false;
+	}
+	bool found;
+	bool crafted = true;
+	list<Item*> foundItems;
+
+	for (string itemName : craftItem->recipe) {
+		found = false;
+		for (Entity* entity : childEntities) {
+			if (compareString(entity->name, itemName)) {
+				found = true;
+				foundItems.push_back((Item*)entity);
+				break;
+			}
+		}
+		if (!found) {
+			crafted = false;
+			printMessage("keep looking, you haven't found everything you need.");
+			break;
+		}
+	}
+
+	if (crafted) {
+		for (Item* item : foundItems) {
+			childEntities.remove(item);
+		}
+		childEntities.push_back(craftItem);
+		string message = craftItem->name + "crafted."s;
+		printMessage(message);
+	}
+	return crafted;
+}
+

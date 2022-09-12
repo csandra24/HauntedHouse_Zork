@@ -7,6 +7,7 @@
 #include "globals.h"
 #include "room.h"
 #include "item.h"
+#include "craftitem.h"
 
 using namespace std;
 /*using namespace text;*/
@@ -30,6 +31,7 @@ public:
 	bool Help();
 	bool Save(Item* item, Item* container);
 	bool Look(const Entity* entity);
+	bool Craft(CraftItem* item);
 	void Inventory();
 
 };
