@@ -29,6 +29,7 @@ public:
 	bool Open(Item* item);
 	bool Help();
 	bool Save(Item* item, Item* container);
+	bool Look(const Entity* entity);
 	void Inventory();
 
 };

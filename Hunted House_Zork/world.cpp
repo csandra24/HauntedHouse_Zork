@@ -14,6 +14,7 @@ World::World() {
 		new Command({"save", "put" }, SAVE, 1),
 		new Command({ "help" }, HELP, 1),
 		new Command({"end", "quit", "exit"}, END, 1),
+		new Command({"look"}, LOOK, 1)
 
 	};
 
@@ -52,13 +53,13 @@ World::World() {
 	Item* peach = new Item("Peach"s, "Yellow, orange and juicy fruit."s, box, FOOD);
 	Item* closet = new Item("Closet"s, "descripción"s, NULL, BAG);
 	Item* silverKey = new Item("Silver Key"s, "descripción"s, closet, SILVER_KEY);
-	Item* kitchenCabinet = new Item("Nombre"s, "descripción"s, NULL, BAG);
-	Item* kitchenCabinet1 = new Item("Nombre"s, "descripción"s, NULL, BAG);
-	Item* fridge = new Item("Nombre"s, "descripción"s, NULL, BAG);
-	Item* cookies = new Item("Nombre"s, "descripción"s, kitchenCabinet, FOOD);
-	Item* silverKey1 = new Item("Nombre"s, "descripción"s, kitchenCabinet1, SILVER_KEY);
-	Item* firecracker = new Item("Nombre"s, "descripción"s, fridge, WEAPON);
-	Item* goldKey = new Item("Nombre"s, "descripción"s, NULL, GOLD_KEY);
+	Item* kitchenCabinet = new Item("Kitchen Cabinet"s, "descripción"s, NULL, BAG);
+	Item* kitchenCabinet1 = new Item("Kitchen Cabinet"s, "descripción"s, NULL, BAG);
+	Item* fridge = new Item("Fridge"s, "descripción"s, NULL, BAG);
+	Item* cookies = new Item("Cookies"s, "descripción"s, kitchenCabinet, FOOD);
+	Item* silverKey1 = new Item("Silver Key"s, "descripción"s, kitchenCabinet1, SILVER_KEY);
+	Item* firecracker = new Item("Firecrackers"s, "descripción"s, fridge, WEAPON);
+	Item* goldKey = new Item("Gold Key"s, "descripción"s, NULL, GOLD_KEY);
 
 	worldEntities.push_back(bag);
 	worldEntities.push_back(box);
@@ -90,6 +91,7 @@ World::World() {
 	bedroom->addItem(goldKey);
 
 	printIntro();
+	player->Look(NULL);
 
 	//posar sota de items
 	/*bool gotSilverKey = false;
@@ -137,8 +139,24 @@ Actions World::Input(const string& input)
 
 	args = command->GetArguments(input);
 
-	switch (command->actions)
-	{
+	switch (command->actions) {
+	case LOOK:
+		if (args.empty()) {
+			player->Look(NULL);
+		}
+		else {
+			for (Entity* element : worldEntities) {
+				if (compareString(args, element->name) && element->parent == NULL && element->type != EXIT) {
+					player->Look(element);
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				printMessage("This item does not exists.");
+			}
+		}
+		break;
 	case MOVE:
 		if (args.empty()) {
 			statemovement = player->Move(NOWHERE);

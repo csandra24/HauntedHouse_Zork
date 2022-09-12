@@ -19,6 +19,7 @@ stateMovement Player::Move(const Directions directions) {
 	Room* nextRoom = room->getRoom(directions);
 	if (nextRoom != NULL) {
 		room = nextRoom;
+		Look(NULL);
 		if (compareString(room->name, "Name final room (criatura)")) {
 			return STOP;
 		}
@@ -159,5 +160,48 @@ bool Player::Save(Item* item, Item* container) {
 		printMessage("You don't have both items."s);
 	}
 	return false;
+}
+
+bool Player::Look(const Entity* entity) {
+	bool found = false;
+	if (entity == NULL) {
+		printMessage(room->name, room->description);
+		if (room->childEntities.empty() == false) {
+			printMessage("In this place you can see:");
+			for (Entity* object : room->childEntities) {
+				string obj = object->name;
+				obj[0] = (char)tolower(object->name[0]);
+				printMessage("A " + obj);
+			}
+		}
+		return true;
+	}
+	else if (compareString(entity->name, "player"s)) {
+		printMessage(description);
+		return true;
+	}
+	else {
+		for (Entity* iter : childEntities) {
+			if (compareString(iter->name, entity->name)) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			for (Entity* iter : room->childEntities) {
+				if (compareString(iter->name, entity->name)) {
+					found = true;
+					break;
+				}
+			}
+		}
+	}
+	if (found) {
+		printMessage(entity->description);
+	}
+	else {
+		printMessage("That's not something you can find in this room nor in your inventory."s);
+	}
+	return found;
 }
 
